@@ -3,84 +3,103 @@
 #include <locale.h>
 #include <math.h>
 
+int isLeapYear(int yeas);
+double calculateF(double x);
+int checkInInterval(double val, double a, double b);
+
 int main()
 {
-	setlocale(LC_ALL, "ru_RU.UTF-8");
-	Task_1();
-	Task_2();
-	DZ_Lab_6();
+    setlocale(LC_ALL, "ru_RU.UTF-8");
 
-	return 0;
+    int yeas;
+    printf("Введите год: ");
+    scanf("%d", &yeas);
+    if (isLeapYear(yeas))
+    {
+        printf("Год %d високосный\n", yeas);
+    }
+    else
+    {
+        printf("Год %d не високосный\n", yeas);
+    }
+
+
+    double x;
+    printf("Введите x: ");
+    scanf("%lf", &x);
+    double F = calculateF(x);
+    printf("F(x) = %.6lf\n", F);
+
+
+    double x1, y1, z1;
+    int f = 0;
+
+    printf("Введите три вещественных числа через пробел: ");
+    scanf("%lf %lf %lf", &x1, &y1, &z1);
+
+    printf("Числа, принадлежащие интервалу (-1, 1):\n");
+    if (checkInInterval(x1, -1.0, 1.0)) 
+    { printf("%g\n", x1); f++; }
+    if (checkInInterval(y1, -1.0, 1.0)) 
+    { printf("%g\n", y1); f++; }
+    if (checkInInterval(z1, -1.0, 1.0)) 
+    { printf("%g\n", z1); f++; }
+
+    if (f == 0)
+    {
+        printf("Ни одно из чисел не принадлежит интервалу.\n");
+    }
+
+    return 0;
 }
 
-int Task_1()
+int isLeapYear(int yeas)
 {
-	int yeas;
-
-	printf("Введите год: ");
-	scanf("%d", &yeas);
-
-	int ost = yeas % 4;
-	if ((ost == 0 && yeas % 100 != 0) || yeas % 400 == 0)
-	{
-		printf("Год %d високосный\n", yeas);
-	}
-	else
-	{
-		printf("Год %d не високосный\n", yeas);
-	}
-	return 0;
+    return ((yeas % 4 == 0 && yeas % 100 != 0) || yeas % 400 == 0);
 }
 
-int Task_2()
+double calculateF(double x)
 {
-	double x,F;
-
-	printf("Введите x: ");
-	scanf("%lf", &x);
-	if (x <= 3.0)
-	{
-		F = -pow(x, 2) + 3.0 * x + 9.0;
-	}
-	else
-	{
-		F = x / (pow(x, 2) + 1);
-	}
-	printf("F(x) = %.6lf\n", F);
-	return 0;
+    return (x <= 3.0) ? (-pow(x, 2) + 3.0 * x + 9.0) : (x / (pow(x, 2) + 1));
 }
 
-int DZ_Lab_6()
+int checkInInterval(double val, double a, double b)
 {
-	double x;
-	double y;
-	double z;
-	int f = 0;
-
-	printf("Введите три вещественных числа через пробел: ");
-	scanf("%lf %lf %lf", &x, &y, &z);
-
-	printf("Числа принадлежащие интервалу (-1, 1):\n");
-	if (x > -1.0 && x < 1.0)
-	{
-		printf("%g\n", x);
-		f++;
-	}
-	if (y > -1.0 && y < 1.0)
-	{
-		printf("%g\n", y);
-		f++;
-	}
-	if (z > -1.0 && z < 1.0)
-	{
-		printf("%g\n", z);
-		f++;
-	}
-
-	if (f == 0)
-	{
-		printf("Ни одно из чисел не принадлежит интервалу.\n");
-	}
-	return 0;
+    return (val > a && val < b);
 }
+
+/*
+Схема isLeapYear(yeas):
+
+Начало.
+Получение параметра yeas.
+Решение: ((yeas % 4 == 0 && yeas % 100 != 0) || yeas % 400 == 0) ?
+    Да: Возврат 1.
+    Нет: Возврат 0.
+Конец.
+
+    Схема calculateF(x) :
+
+Начало.
+Получение параметра x.
+Решение: x <= 3.0 ?
+    Да: Вычислить F = -x ^ 2 + 3x + 9.
+    Нет: Вычислить F = x / (x ^ 2 + 1).
+Возврат F.
+Конец.
+
+    Схема фрагмента main для DZ_Lab_6 :
+
+Ввод x1, y1, z1.
+Процесс: f = 0.
+Обращение к функции : checkInInterval(x1, -1.0, 1.0).
+Если вернулась 1: Печать x1, f = f + 1.
+Обращение к функции : checkInInterval(y1, -1.0, 1.0).
+Если вернулась 1: Печать y1, f = f + 1.
+Обращение к функции : checkInInterval(z1, -1.0, 1.0).
+Если вернулась 1: Печать z1, f = f + 1.
+Решение: f == 0 ?
+Да: Печать «Ни одно из чисел не принадлежит интервалу.».
+Переход к завершению main.
+*/
 
